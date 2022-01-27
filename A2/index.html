@@ -120,7 +120,7 @@
     vec4 flame = vec4((f*f*f+.5*f*f+ abs(sin(10.0*f + time/10.0)))*color, 1.);
     vec4 vid = vec4(texture2D(uSampler, pos).rgb, 1.0);
 
-    vec4 vidFlame = mix(flame,vid,theMix);
+    vec4 vidFlame  = mix(flame * vid, vid,theMix);
     gl_FragColor = vidFlame;
 
 
