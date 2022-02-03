@@ -10,7 +10,7 @@ After not seeing any reaction with the given RD values; A=1.0, B=.5, Feed=.055, 
 
 
 Options: 
-Style Map - the three sections of my composition have different feed and kill rates.
+Style Map - the three sections of my composition have different feed and kill rates.  
 Flow - the root section flows downward.
 
 I'll show my wife soon...
