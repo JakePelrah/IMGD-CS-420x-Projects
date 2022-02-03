@@ -9,7 +9,7 @@ The colors kinda suck, I may start over using black and white. I thought I had a
 After not seeing any reaction with the given RD values; A=1.0, B=.5, Feed=.055, Kill=.062  dropping B below 0.55 fixed the issue.
 
 
-Options: 
+Options:  
 Style Map - the three sections of my composition have different feed and kill rates.  
 Flow - the root section flows downward.
 
