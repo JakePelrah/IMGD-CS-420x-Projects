@@ -13,4 +13,4 @@ Options:
 Style Map - the three sections of my composition have different feed and kill rates.  
 Flow - the root section flows downward.
 
-I'll show my wife soon...
+My wife said the sky should be more sky blue than royal blue. She also liked the asymmetry.
