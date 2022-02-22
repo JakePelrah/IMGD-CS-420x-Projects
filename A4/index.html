@@ -51,10 +51,9 @@
     uniform float speed;
     uniform float green;
     uniform float blue;
-    uniform float sobel;
-   
+    uniform float kernel;
 
-    
+       
     vec3 get(int x, int y) {
       return texture( uSampler, ( gl_FragCoord.xy + vec2(x, y) ) / resolution ).rgb;
     }
@@ -63,30 +62,58 @@
     void main() {
 
         float sum;
-        if(sobel > 0.0){
-            float gx = get(0,0).r * 5.;
-            gx += get(0,1).r * -1.;
-            gx += get(1,1).r * 0.;
-            gx += get(1,0).r * -1.;
+
+        if (kernel == 0.0){
+            sum += get(0,0).r * 5.;
+            sum += get(0,1).r * -1.;
+            sum += get(1,1).r * -0.;
+            sum += get(1,0).r * -1.;
+            sum += get(1,-1).r * -0.;
+            sum += get(0,-1).r * -1.;
+            sum += get(-1,-1).r * -0.;
+            sum += get(-1,0).r  * -1.;
+            sum += get(-1,1).r  * -0.;
+           }
+
+        else if(kernel == 1.0){
+            float gx = get(0,0).r * 0.;
+            gx += get(0,1).r * 1.;
+            gx += get(1,1).r * 2.;
+            gx += get(1,0).r * 1.;
             gx += get(1,-1).r * 0.;
             gx += get(0,-1).r * -1.;
-            gx += get(-1,-1).r * 0.;
+            gx += get(-1,-1).r * -2.;
             gx += get(-1,0).r  * -1.;
             gx += get(-1,1).r  * 0.;
+
+            float gy = get(0,0).r * 0.;
+            gy += get(0,1).r * 2.;
+            gy += get(1,1).r * 1.;
+            gy += get(1,0).r * 0.;
+            gy += get(1,-1).r * -1.;
+            gy += get(0,-1).r * -2.;
+            gy += get(-1,-1).r * -1.;
+            gy += get(-1,0).r  * 0.;
+            gy += get(-1,1).r  * 1.;
+            sum = sqrt( abs(gx) + abs(gy)); 
             sum = gx; 
         }
+
         
-        else{
-         sum += get(0,0).r * 5.;
-         sum += get(0,1).r * -1.;
-         sum += get(1,1).r * -0.;
-         sum += get(1,0).r * -1.;
-         sum += get(1,-1).r * -0.;
-         sum += get(0,-1).r * -1.;
-         sum += get(-1,-1).r * -0.;
-         sum += get(-1,0).r  * -1.;
-         sum += get(-1,1).r  * -0.;
+        else if(kernel == 2.0){
+            float gau = get(0,0).r * 1.;
+            gau += get(0,1).r * -1.;
+            gau += get(1,1).r * 0.;
+            gau += get(1,0).r * 1.;
+            gau += get(1,-1).r * 2.;
+            gau += get(0,-1).r * 1.;
+            gau += get(-1,-1).r * 0.;
+            gau += get(-1,0).r  * -1.;
+            gau += get(-1,1).r  * -2.;
+
+            sum = tan(gau) * gau; 
         }
+   
 
       vec2 pos = gl_FragCoord.xy / resolution;
       vec4 tex = texture( uSampler, pos );
@@ -105,6 +132,8 @@
     uniform float dist;
     uniform float alterPlane;
     uniform float time;
+    uniform float pointSize;
+
 
 
 
@@ -172,7 +201,7 @@
       // move our agent in our new direction by one pixel
       o_vpos.xy += o_vpos.zw * pixel;
       
-      gl_PointSize = 1.0;
+      gl_PointSize = pointSize;
     
       // position is for fragment shader rendering, don't need to include heading
 
@@ -238,10 +267,12 @@
         gl.uniform1f(gl.getUniformLocation(ddProgram, "speed"), 0.2);
         gl.uniform1f(gl.getUniformLocation(ddProgram, "green"), 0.5);
         gl.uniform1f(gl.getUniformLocation(ddProgram, "blue"), 1.0);
-        gl.uniform1f(gl.getUniformLocation(ddProgram, "sobel"), 0.0);
+        gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), 0.0);
         gl.useProgram(simulationProgram);
         gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), 2.0);
         gl.uniform1f(gl.getUniformLocation(simulationProgram, "alterPlane"), 1.0);
+        gl.uniform1f(gl.getUniformLocation(simulationProgram, "pointSize"), 1.0);
+
         // find a pointer to the uniform "time" in our fragment shader
         uTime = gl.getUniformLocation(simulationProgram, 'time')
         gl.uniform1f(gl.getUniformLocation(simulationProgram, "xx"), 0.05);
@@ -252,7 +283,9 @@
         const PARAMS = {
             speed: 0.2,
             tint: { x: 0.5, y: 1.0 },
-            dist: 2.0
+            dist: 2.0,
+            pointSize: 1.0,
+            kernel: 0,
         };
 
         pane.addInput(PARAMS, 'speed', {
@@ -268,6 +301,19 @@
             min: 0.0,
             max: 10.0,
             step: 0.01,
+        });
+        pane.addInput(PARAMS, 'pointSize', {
+            min: 0.1,
+            max: 3.0,
+            step: 0.01,
+        });
+
+        pane.addInput(PARAMS, 'kernel', {
+            options: {
+                custom1: 0,
+                sobel: 1,
+                custom2: 2,
+            }
         });
 
         const btn = pane.addButton({
@@ -293,7 +339,7 @@
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "speed"), 0.2);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "green"), 0.5);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "blue"), 1.0);
-                    gl.uniform1f(gl.getUniformLocation(ddProgram, "sobel"), 0.0);
+                    gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), 0.0);
                     gl.useProgram(simulationProgram);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), 2.0);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "alterPlane"), 1.0);
@@ -309,7 +355,7 @@
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "speed"), 0.06);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "green"), .64);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "blue"), .79);
-                    gl.uniform1f(gl.getUniformLocation(ddProgram, "sobel"), 1.0);
+                    gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), 1.0);
                     gl.useProgram(simulationProgram);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "alterPlane"), 0.0);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), 10.);
@@ -323,7 +369,7 @@
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "speed"), 0.15);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "green"), .95);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "blue"), .00);
-                    gl.uniform1f(gl.getUniformLocation(ddProgram, "sobel"), 0.0);
+                    gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), 0.0);
                     gl.useProgram(simulationProgram);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "alterPlane"), 0.0);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), 2.);
@@ -337,7 +383,7 @@
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "speed"), 0.50);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "green"), .92);
                     gl.uniform1f(gl.getUniformLocation(ddProgram, "blue"), .70);
-                    gl.uniform1f(gl.getUniformLocation(ddProgram, "sobel"), 0.0);
+                    gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), 0.0);
                     gl.useProgram(simulationProgram);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "alterPlane"), 0.0);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), 1.20);
@@ -363,6 +409,16 @@
                 case "dist":
                     gl.useProgram(simulationProgram);
                     gl.uniform1f(gl.getUniformLocation(simulationProgram, "dist"), ev.value);
+                    break
+
+                case "pointSize":
+                    gl.useProgram(simulationProgram);
+                    gl.uniform1f(gl.getUniformLocation(simulationProgram, "pointSize"), ev.value);
+                    break
+                case "kernel":
+                    gl.useProgram(ddProgram);
+                    console.log(ev.value)
+                    gl.uniform1f(gl.getUniformLocation(ddProgram, "kernel"), ev.value);
                     break
 
             }
@@ -595,7 +651,7 @@
 
         // set random positions / random headings
         for (let i = 0; i < agentCount * agentSize; i += agentSize) {
-            buffer[i] = -3 + Math.random()  * 2.0
+            buffer[i] = -3 + Math.random() * 2.0
             buffer[i + 1] = -1 + Math.random() * 2.0
             buffer[i + 2] = Math.random() * x
             buffer[i + 3] = Math.random() * y
