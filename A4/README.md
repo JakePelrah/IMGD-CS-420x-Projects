@@ -11,4 +11,6 @@ and the concentration is .01. This creates little "threads" that are left behind
 
 Creeping: This is my favorite preset. I modified the simulation buffer to only populate the left side of the screen. The sensor distance is set to 1.2. This creates vines that creep and search to the right.
 
+The additional controls are speed, tint, distance, pointSize and kernel type. Increasing poinSize creates some interesting alterations of the presets.
+
 
