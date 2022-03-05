@@ -11,7 +11,7 @@ function anything()
 	
 	switch(type)
 	{
-		//channel 9 note on 
+		// channel 9 note on 
 		case 152:
 			outlet(0, 'sendMIDI', JSON.stringify({ type:'note', note:val1, velocity:val2}))
 			break
@@ -20,15 +20,11 @@ function anything()
 		case 184:
 			outlet(0, 'sendMIDI', JSON.stringify({ type:'mod', value:val2}))
 			break
-			
+		// pitch bend
 		case 232:
 			outlet(0, 'sendMIDI', JSON.stringify({ type:'bend', value:val2}))
 			break
 
-	}
-
-
-
-	
+	}	
 	
 }

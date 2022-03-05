@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 34.0, 76.0, 1469.0, 707.0 ],
+		"rect" : [ 40.0, 82.0, 1469.0, 707.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 1,
 		"default_fontsize" : 12.0,
@@ -147,7 +147,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 681.0, 57.0, 264.833333333333485, 144.0 ],
+					"patching_rect" : [ 307.083333333333258, 47.0, 264.833333333333485, 144.0 ],
 					"presentation" : 1,
 					"presentation_linecount" : 10,
 					"presentation_rect" : [ 33.0, 83.0, 250.0, 144.0 ],
@@ -283,7 +283,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 60.0, 305.0, 81.0, 22.0 ],
 					"saved_object_attributes" : 					{
-						"filename" : "parseEvent",
+						"filename" : "parseEvent.js",
 						"parameter_enable" : 0
 					}
 ,
@@ -346,8 +346,6 @@
 					"saved_object_attributes" : 					{
 						"autostart" : 1,
 						"defer" : 0,
-						"node_bin_path" : "",
-						"npm_bin_path" : "",
 						"watch" : 0
 					}
 ,
@@ -485,7 +483,7 @@
 			}
 , 			{
 				"name" : "parseEvent.js",
-				"bootpath" : "~/Desktop/420xFinal/A5-Max/code",
+				"bootpath" : "~/WebstormProjects/IMGD-CS-420x-Projects/A5/A5-Max/code",
 				"patcherrelativepath" : "../code",
 				"type" : "TEXT",
 				"implicit" : 1
@@ -498,7 +496,7 @@
 			}
 , 			{
 				"name" : "sendMIDIToSim.js",
-				"bootpath" : "~/Desktop/420xFinal/A5-Max/code",
+				"bootpath" : "~/WebstormProjects/IMGD-CS-420x-Projects/A5/A5-Max/code",
 				"patcherrelativepath" : "../code",
 				"type" : "TEXT",
 				"implicit" : 1
