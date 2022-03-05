@@ -3,7 +3,7 @@
 I used [Max](https://cycling74.com/products/max/), a MIDI controller and MIDI [messages](https://www.midi.org/specifications-old/item/table-1-summary-of-midi-message) to control a Physarum mold  simulation. Max objects are simple to use and enable an artist to rapidly create audio and visual works.
 (Max has its own packages for working with video and graphics called [Jitter](https://docs.cycling74.com/max8/tutorials/jitindex)).
 I started this project using the [web MIDI API](https://developer.mozilla.org/en-US/docs/Web/API/Web_MIDI_API) and made the decision to use 
-max because I was familiar with it from previous classes, and it allows the user to quickly modify/create sounds. [Mudcube](https://github.com/mudcube/MIDI.js/) and
+max because I was familiar with it from previous classes, and it allows the user to quickly modify/create sounds. [MIDIjs](https://github.com/mudcube/MIDI.js/) and
 [WEBMIDI](https://webmidijs.org/) were suggested by professor Roberts and I will experiment with these in the future.
 
 I started by constructing the Max patcher(below).
