@@ -30,7 +30,7 @@ and the third is a blur kernel. These are mixed together in the shader.
 Controller keypresses send MIDI note-on/off messages which have their velocities mapped to the sensor distance, held keys will keep reporting
 their current velocities until the key is released and midi-off message is sent. Velocity is also mapped to the blue channel of the 
 decay diffuse shader. The modulation wheel is mapped to the sensing angle and can be used to accelerate growth. Pitch-bend is mapped to 
-the alpha of the decay diffuse shader, low values slow down the growth and cause it to become dense, at high values,  the individuals particles are easily seen.
+the alpha of the decay diffuse shader, low values slow down the growth and cause it to become dense, at high values,  the individual particles are easily seen.
 
 [![Simulationon YouTube](sim.png)](https://www.youtube.com/watch?v=R6zfwl4UgiY "Link Title")
 [![Simulationon YouTube](sim2.png)](https://www.youtube.com/watch?v=R6zfwl4UgiY "Link Title")
